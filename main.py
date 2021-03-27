@@ -32,8 +32,7 @@ if __name__ == "__main__":
                 fan_speed[i] = min(fan_speed[i] + 5, 100)
             elif temp < target_temp:
                 fan_speed[i] = max(fan_speed[i] - 5, 0)
-            if temp != target_temp:
-                if set_fanspeed(gpu_id=i, fan_speed=fan_speed[i]):
-                    print("gpu", i, "set fanspeed", fan_speed[i])
+            if set_fanspeed(gpu_id=i, fan_speed=fan_speed[i]):
+                print("gpu", i, "set fanspeed", fan_speed[i])
         time.sleep(sleep_time)
 
