@@ -17,9 +17,9 @@ if __name__ == "__main__":
         level=logging.INFO
     )
 
-
     sleep_time = 2
-    target_temp = 60
+    speed_delta = 1
+    target_temp = 65
     stats = get_nvidia_smi()
     fan_speed = stats['fan.speed']
     print('fanspeed', fan_speed)
@@ -29,9 +29,11 @@ if __name__ == "__main__":
         for i, row in stats.iterrows():
             temp = row['temp.gpu']
             if temp > target_temp:
-                fan_speed[i] = min(fan_speed[i] + 5, 100)
+                fan_speed[i] = min(fan_speed[i] + speed_delta, 100)
             elif temp < target_temp:
-                fan_speed[i] = max(fan_speed[i] - 5, 0)
+                fan_speed[i] = max(fan_speed[i] - speed_delta, 0)
+            else:
+                fan_speed[i] = max(min(fan_speed[i], 100), 0)
             if set_fanspeed(gpu_id=i, fan_speed=fan_speed[i]):
                 print("gpu", i, "set fanspeed", fan_speed[i])
         time.sleep(sleep_time)
