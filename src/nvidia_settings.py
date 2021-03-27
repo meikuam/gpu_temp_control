@@ -64,7 +64,7 @@ def set_fanspeed(gpu_id: int, fan_speed: int = None) -> bool:
         # set fan control off
         query = f"{display} XAUTHORITY={xauthority} nvidia-settings -a '[gpu:{gpu_id}]/GPUFanControlState=0'"
     else:
-        assert 0 < fan_speed <= 100, f"fan_speed not in limit: {fan_speed}"
+        assert 0 <= fan_speed <= 100, f"fan_speed not in limit: {fan_speed}"
         query = f"{display} XAUTHORITY={xauthority} nvidia-settings -a '[gpu:{gpu_id}]/GPUFanControlState=1' -a '[fan:{gpu_id}]/GPUTargetFanSpeed={fan_speed}'"
     try:
         ret = os.popen(query).read().strip()
